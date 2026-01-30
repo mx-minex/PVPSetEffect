@@ -1,0 +1,75 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: JDK 17 설정
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Gradle 캐시 설정
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: 태그에서 버전 추출
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Gradle 빌드 권한 부여
+        run: chmod +x gradlew
+
+      - name: 릴리즈 빌드
+        run: ./gradlew build -Pversion=${{ steps.version.outputs.VERSION }} --no-daemon
+
+      - name: SHA256 체크섬 생성
+        id: checksum
+        run: |
+          cd build/libs
+          CHECKSUM=$(sha256sum PVPSetEffect-${{ steps.version.outputs.VERSION }}.jar)
+          echo "$CHECKSUM" > PVPSetEffect-${{ steps.version.outputs.VERSION }}.jar.sha256
+          echo "SHA256=$CHECKSUM" >> $GITHUB_OUTPUT
+
+      - name: GitHub Release 생성
+        uses: softprops/action-gh-release@v2
+        with:
+          name: PVPSetEffect v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## PVPSetEffect v${{ steps.version.outputs.VERSION }}
+
+            ### 설치 방법
+            1. `PVPSetEffect-${{ steps.version.outputs.VERSION }}.jar` 파일을 다운로드
+            2. 서버의 `plugins` 폴더에 복사
+            3. 서버 재시작
+
+            ### 체크섬 (SHA256)
+            ```
+            ${{ steps.checksum.outputs.SHA256 }}
+            ```
+          files: |
+            build/libs/PVPSetEffect-${{ steps.version.outputs.VERSION }}.jar
+            build/libs/PVPSetEffect-${{ steps.version.outputs.VERSION }}.jar.sha256
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.VERSION, '-') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

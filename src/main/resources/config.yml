@@ -1,0 +1,83 @@
+# ========================================
+# PVPSetEffect 설정 파일
+# 제작자: Junseo5
+# 버그 리포트: Discord - Junseo5#3213
+# ========================================
+
+# === 재계산 설정 ===
+recalculation:
+  # 인벤토리 이벤트 디바운스 틱 (1틱 = 0.05초)
+  # 장비 빠르게 변경 시 불필요한 재계산 방지
+  debounceTicks: 1
+
+# === 포션 효과 설정 ===
+potion:
+  # 포션 적용 모드
+  # IMMEDIATE: 장비 변경 시 기존 세트 포션 효과 즉시 제거 (기본값)
+  #            - 빠른 장비 변환에 유리 (효과가 즉시 사라짐)
+  #            - 예: 신속 부츠 벗으면 신속 효과 즉시 사라짐
+  # NATURAL: 효과가 자연스럽게 만료될 때까지 유지
+  #          - 짧은 지속시간의 효과가 주기적으로 재적용됨
+  #          - 장비 변경해도 기존 효과가 남은 시간 동안 유지
+  #          - 예: 신속 부츠 벗어도 3초간 신속 효과 유지
+  applicationMode: IMMEDIATE
+
+  # [IMMEDIATE 모드 전용] 포션 효과 지속시간 (틱 단위)
+  # 2147483647 = 사실상 영구 지속 (장비 해제 시 자동 제거)
+  durationTicks: 2147483647
+
+  # [NATURAL 모드 전용 설정]
+  natural:
+    # 포션 효과 지속 시간 (틱)
+    # 20틱 = 1초, 60틱 = 3초, 100틱 = 5초
+    # 권장: 40~100 (2~5초)
+    effectDuration: 60
+
+    # 효과 재적용 주기 (틱)
+    # effectDuration보다 작아야 효과가 끊기지 않음
+    # 권장: effectDuration의 60~80%
+    reapplyInterval: 40
+
+# === 전투 설정 ===
+combat:
+  # 공격력/방어력 보너스 스케일
+  # 실제 데미지 = (보너스 수치 / 스케일)
+  # 예: 공격력 +10, attackScale=2.0 => 실제 추가 데미지 +5
+  attackScale: 2.0
+  defenseScale: 2.0
+
+  # 회피율 최대치 (퍼센트, 0~100)
+  evasionMaxPercent: 100.0
+
+  # 치명타 확률 최대치 (퍼센트, 0~100)
+  criticalChanceMaxPercent: 100.0
+
+  # 치명타 데미지 증가율 (퍼센트)
+  # 예: 50 = 50% 추가 데미지
+  criticalDamageScalePercent: 100.0
+
+  # 흡혈 설정
+  lifesteal:
+    # 흡혈 발동 확률 (0.0~1.0)
+    # 예: 0.37 = 37% 확률로 발동
+    triggerChance: 0.37
+    # 흡혈 회복량 스케일
+    # 실제 회복량 = (흡혈 수치 / healScale)
+    healScale: 2.0
+
+  # 재생 보너스 스케일
+  regenScale: 2.0
+
+  # 최소 데미지 (방어력으로 0 이하가 되어도 이 값 보장)
+  minDamage: 0.0
+
+  # 체력 보너스 스케일
+  # 실제 추가 체력 = (체력 수치 / healthScale)
+  # 기본값 1.0: 체력 +10 = 하트 5칸 (10 HP)
+  healthScale: 1.0
+
+# === 로깅 설정 ===
+metrics:
+  # 성능 메트릭스 로그 간격 (분)
+  # 0 = 비활성화
+  intervalMinutes: 5

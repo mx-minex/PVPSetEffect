@@ -1,0 +1,49 @@
+# Gradle
+.gradle/
+build/
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# IDE - Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# IDE - VS Code
+.vscode/
+
+# OS 생성 파일
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 로그 파일
+*.log
+logs/
+
+# 테스트 서버
+run/
+
+# 빌드 결과물 (jar는 releases나 CI에서 관리)
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+
+# 환경 설정 (민감 정보)
+.env
+*.local
+
+# 임시 파일
+*.tmp
+*.bak
+*.swp
+*~
+nul
+
+# Claude Code 설정
+CLAUDE.md

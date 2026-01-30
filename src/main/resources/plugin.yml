@@ -1,0 +1,23 @@
+name: PVPSetEffect
+version: '${version}'
+main: kr.minex.pvpseteffect.PVPSetEffectPlugin
+api-version: '1.20'
+description: PVP 서버를 위한 세트 효과 시스템 - 장비 조합에 따른 능력치/포션 보너스 제공
+author: Junseo5
+website: https://discord.com/users/Junseo5#3213
+
+commands:
+  세트효과:
+    description: 세트효과 관리 명령어
+    usage: /세트효과 <제작|삭제|목록|설정|능력|포션|능력보기|능력목록|포션목록>
+    permission: seteffect.admin
+  seteffect:
+    description: Set effect management command
+    usage: /seteffect <create|delete|list|config|ability|potion|view|abilitylist|potionlist>
+    permission: seteffect.admin
+    aliases: [se]
+
+permissions:
+  seteffect.admin:
+    description: 세트효과 관리 권한
+    default: op
