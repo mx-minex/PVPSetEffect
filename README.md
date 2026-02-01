@@ -164,7 +164,7 @@ metrics:
 
 ## 라이선스
 
-이 프로젝트는 MIT 라이선스 하에 배포됩니다.
+이 프로젝트는 [GNU General Public License v3.0](LICENSE) 하에 배포됩니다.
 
 ## 개발자
 
